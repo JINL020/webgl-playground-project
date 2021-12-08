@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL - Test</title>
+
+    <script src="gl-matrix-min.js"></script>
+    <script type="text/javascript" src="Shape.js"></script>
+    <script type="text/javascript" src="initShaders.js"></script>
+    <script type="text/javascript" src="mouseControlls.js"></script>
+    <script type="text/javascript" src="keyControlls.js"></script>
+    <script type="text/javascript" src="createShapes.js"></script>
+    <script type="text/javascript" src="objectLoader.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+        precision mediump float;
+        
+        attribute vec4 vertexPosition;
+        attribute vec4 vertexColor;
+        
+        uniform mat4 projectionMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 modelMatrix;
+
+        varying vec4 fragmentColor;
+        
+        void main()
+        {
+          gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertexPosition;
+          fragmentColor = vertexColor;
+        }
+    </script>
+
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        precision mediump float;
+        
+        varying vec4 fragmentColor;
+        
+        void main()
+        {
+          gl_FragColor = fragmentColor;
+        }
+    </script>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        #myCanvas {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>2021WS_GFX - Lab 1a</h1>
+    <canvas id="myCanvas" width="1200" height="600">
+        Your browser does not support HTML5
+    </canvas>
+</body>
+
+</html>
