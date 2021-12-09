@@ -1,32 +1,9 @@
-var axisVertices =
-    [
-        // x- axis
-        2, 0, 0, 1,
-        -2, 0, 0, 1,
-
-        // y- axis
-        0, 2, 0, 1,
-        0, -2, 0, 1,
-
-        // z-axis
-
-        0, 0, 2, 1,
-        0, 0, -2, 1,
-    ];
-
-var colors = [[1, 0, 0, 1], [0, 1, 0, 1,], [0, 0, 1, 1,]];
-var axisColors = [];
-colors.forEach(color => {
-    for (let i = 0; i < 2; i++) {
-        axisColors.push(color);
-    }
-});
-
 class Shape {
 
     constructor() {
         this.vertices = [];
         this.colors = [];
+        this.normals = [];
         this.buffers = {
             /* --------- initialize buffers --------- */
             vertexBuffer: gl.createBuffer(),
@@ -41,26 +18,9 @@ class Shape {
         this.rotationMatrix = mat4.create();
         this.scaleMatrix = mat4.create();
         this.helper = mat4.create();
-
-
-        this.axisOn = false;
-    }
-
-    setAxisOn(mode) {
-        this.axisOn = mode;
     }
 
     initData(vertices, colors, normals) {
-        /* --------- add axis --------- */
-        axisVertices.forEach(vertex => {
-            vertices.push(vertex);
-        })
-
-        axisColors.forEach(color => {
-            colors.push(color);
-        })
-
-
         /* --------- flatten & convert to 32 bit float arrays --------- */
         this.vertices = new Float32Array(vertices.flat());
         this.colors = new Float32Array(colors.flat());
@@ -92,10 +52,6 @@ class Shape {
 
         /* --------- draw the shape --------- */
         gl.drawArrays(gl.TRIANGLES, 0, (this.vertices.length / 4) - 6);
-
-        if (this.axisOn) {
-            gl.drawArrays(gl.LINES, (this.vertices.length / 4) - 6, 6);
-        }
     }
 
     translate(vector) {

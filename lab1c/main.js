@@ -29,25 +29,13 @@ window.onload = function main() {
     shaderPrograms.normal.enable();
 
 
-    /* --------- create shapes and translate them away from each other --------- */
-    createAllShapes();
+    /* --------- create shapes --------- */
+    loadOBJFile("/lab1c/sampleModels/teapot.obj")
 
 
-    /* --------- add listeners --------- */
+    /* --------- add EventListener --------- */
     window.addEventListener("keydown", function (event) {
         keyPressed(event);
-    });
-
-    window.addEventListener("mousedown", (event) => {
-        mouseDownFunction(event)
-    });
-
-    window.addEventListener("mousemove", (event) => {
-        mouseMoveFunction(event);
-    });
-
-    window.addEventListener("mouseup", (event) => {
-        mouseUpFunction(event)
     });
 
 
@@ -66,8 +54,6 @@ function render(now = 0) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     shapes.forEach(shape => {
-        /* --------- scale rotation by time difference --------- */
-        //shape.rotate(1 * delta, [1, 1, 0]);
         shape.draw();
     });
 

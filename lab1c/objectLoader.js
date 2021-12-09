@@ -2,6 +2,11 @@
 // 1 element is already inside "objVertices" because vertex 1 means first vertex but index starts at 0 
 var objVertices = [[0, 0, 0,]];
 var objNormals = [[0, 0, 0,]];
+var objTextures = [[0, 0, 0,]];
+
+var arrayVertices = [];
+var arrayNormals = [];
+var arrayTextures = [];
 
 var objVertexNormals = [];
 var objFaces = [];
@@ -99,4 +104,29 @@ function getObj() {
 
     return obj;
 
+}
+
+function getUniformColor(color, faceCount, vertexCount) {
+    let colors = [];
+    for (let faceNo = 0; faceNo < faceCount; faceNo++) {
+        for (let vertexNo = 0; vertexNo < vertexCount; vertexNo++) {
+            colors.push(color);
+        }
+    }
+    return colors;
+}
+
+function getRandomColors(faceCount, vertexCount) {
+    let colors = [];
+    for (let faceNo = 0; faceNo < faceCount; faceNo++) {
+        let faceColor = randomColor();
+        for (let vertexNo = 0; vertexNo < vertexCount; vertexNo++) {
+            colors.push(...faceColor);
+        }
+    }
+    return colors;
+}
+
+function randomColor() {
+    return [Math.random(), Math.random(), Math.random(), 1];
 }

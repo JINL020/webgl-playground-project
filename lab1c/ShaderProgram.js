@@ -32,23 +32,6 @@ class ShaderProgram {
 
 }
 
-function loadShader(shaderId, shaderType) {
-
-    const shader = gl.createShader(shaderType);
-
-    gl.shaderSource(shader, document.getElementById(shaderId).text);
-    gl.compileShader(shader);
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Error while compiling shader", gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-    }
-
-    return shader;
-
-}
-
 function createShaderProgram(vShaderId, fShaderId) {
 
     const vShader = loadShader(vShaderId, gl.VERTEX_SHADER);
@@ -74,5 +57,21 @@ function createShaderProgram(vShaderId, fShaderId) {
     }
 
     return program;
+}
+
+function loadShader(shaderId, shaderType) {
+
+    const shader = gl.createShader(shaderType);
+
+    gl.shaderSource(shader, document.getElementById(shaderId).text);
+    gl.compileShader(shader);
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error("Error while compiling shader", gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+    }
+
+    return shader;
 
 }
