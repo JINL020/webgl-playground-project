@@ -1,10 +1,10 @@
-var lightPosition = [0.0, 0.0, 15.0];
+var lightPosition = [0.0, 15.0, 15.0];
 
-var ambientLight = [0.2, 0.2, 0.2, 1.0];
+var ambientLight = [1.0, 1.0, 1.0, 1.0];
 var diffuseLight = [1.0, 1.0, 1.0, 1.0];
 var specularLight = [1.0, 1.0, 1.0, 1.0];
 
-var ambientMaterial = [1.0, 0.0, 1.0, 1.0];
+var ambientMaterial = [1.0, 1.0, 1.0, 1.0];
 var diffuseMaterial = [1.0, 0.8, 0.0, 1.0];
 var specularMaterial = [1.0, 0.8, 0.0, 1.0];
 
