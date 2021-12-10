@@ -10,6 +10,8 @@
     <script src="gl-matrix-min.js"></script>
     <script type="text/javascript" src="globals.js"></script>
     <script type="text/javascript" src="Shape.js"></script>
+    <script type="text/javascript" src="Pacman.js"></script>
+    <script type="text/javascript" src="mouseControlls.js"></script>
     <script type="text/javascript" src="keyControlls.js"></script>
     <script type="text/javascript" src="objectLoader.js"></script>
     <script type="text/javascript" src="ShaderProgram.js"></script>
@@ -119,29 +121,30 @@
         precision mediump float;
         
         attribute vec4 vPosition;
-        attribute vec4 vColor;
+        attribute vec2 vTextureCoord;
         
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
 
-        varying vec4 fColor;
+        varying vec2 fTextureCoord;
         
         void main()
         {
           gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
-          fColor = vColor;
+          fTextureCoord = vTextureCoord;
         }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
         
-        varying vec4 fColor;
+        varying vec2 fTextureCoord;
+        uniform sampler2D sampler;
         
         void main()
         {
-          gl_FragColor = fColor;
+          gl_FragColor = fTextureCoord;
         }
     </script>
 

@@ -1,43 +1,50 @@
-/* --------- simple example of loading external files --------- */
-// 1 element is already inside "objVertices" because vertex 1 means first vertex but index starts at 0 
+// 1 means first vertex but index start with 0 so we just add an element so 1 means vertex at index 1 
 var objVertices = [[0, 0, 0,]];
-var objNormals = [[0, 0, 0,]];
 var objTextures = [[0, 0, 0,]];
+var objNormals = [[0, 0, 0,]];
 
 var arrayVertices = [];
-var arrayNormals = [];
 var arrayTextures = [];
-
-var objVertexNormals = [];
-var objFaces = [];
+var arrayNormals = [];
 
 async function loadOBJFile(filename) {
     const resource = await fetch(filename);
     const text = await resource.text();
+
+    clearPreviousData();
+
     parseOBJfile(text);
+
     const object = getObj();
-    shapes.push(object);
+    return object;
 }
 
 function parseOBJfile(text) {
     var lines = text.split('\n');
 
-    for (let lineNo = 0; lineNo < lines.length; ++lineNo) {
+    lines.forEach(line => {
         let vertex = [];
-        let vertexNormal = [];
-        let face = [];
+        let texture = [];
+        let normal = [];
 
-        const line = lines[lineNo].trim();
+        line.trim();
         if (line === '' || line.startsWith('#')) {
-            continue;
         }
-        if (line.startsWith('vn')) {
+        else if (line.startsWith('vt')) {
+            line
+                .replace('vt', '')
+                .trim()
+                .split(' ')
+                .forEach(element => texture.push(parseFloat(element)));
+            objTextures.push(texture);
+        }
+        else if (line.startsWith('vn')) {
             line
                 .replace('vn', '')
                 .trim()
                 .split(' ')
-                .forEach(element => vertexNormal.push(parseFloat(element)));
-            objNormals.push(vertexNormal);
+                .forEach(element => normal.push(parseFloat(element)));
+            objNormals.push(normal);
         }
         else if (line.startsWith('v')) {
             line
@@ -49,61 +56,37 @@ function parseOBJfile(text) {
             objVertices.push(vertex);
         }
         else if (line.startsWith('f')) {
-            line
-                .replace('f', '')
-                .trim()
-                .split(' ')
-                .forEach(element => {
-                    let helper = element.replace(/[\/][\/]/, " ").split(' ');
-                    face.push(parseFloat(helper[0]));
-                    objVertexNormals.push(parseInt(helper[1]));
-                });
-            //console.log(face);
-            objFaces.push(face);
-        }
-    }
-    //console.log(objVertices);
-    //console.log(objFaces);
-    //console.log(objNormals);
-    //console.log(objVertexNormals);
-}
+            let currentLine = line.split(" ");
 
-function getBufferVertices() {
-    let vertexToSend = [];
-    for (let faceNo = 0; faceNo < objFaces.length; faceNo++) {
-        for (let i = 0; i < 3; i++) {
-            let face = objFaces[faceNo];
-            let vertexNo = face[i];
-            let vertex = objVertices[vertexNo];
-            vertexToSend.push(vertex);
-        }
-    }
-    //console.log(vertexToSend);
-    return vertexToSend.flat();
-}
+            let vertex1 = [];
+            currentLine[1].split("/").forEach(element => vertex1.push(parseInt(element)));
 
-function getBufferVertexNormals() {
-    let vertexNormalsToSend = [];
-    objVertexNormals.forEach(normalNo => {
-        vertexNormalsToSend.push(objNormals[normalNo]);
+            let vertex2 = [];
+            currentLine[2].split("/").forEach(element => vertex2.push(parseInt(element)));
+
+            let vertex3 = [];
+            currentLine[3].split("/").forEach(element => vertex3.push(parseInt(element)));
+
+            processVertex(vertex1);
+            processVertex(vertex2);
+            processVertex(vertex3);
+        }
     });
-    //console.log(vertexNormalsToSend);
-    return vertexNormalsToSend;
+}
+
+function processVertex(vertexData) {
+    arrayVertices.push(objVertices[vertexData[0]]);
+    arrayTextures.push(objTextures[vertexData[1]]);
+    arrayNormals.push(objNormals[vertexData[2]]);
 }
 
 function getObj() {
-    let bufferVertices = getBufferVertices();
-    //console.log(bufferVertices);
-
-    let objColor = getUniformColor([0.17, 0.66, 0.37, 1.01], objFaces.length, 3);
-
-    let objNormals = getBufferVertexNormals();
+    let objColor = getUniformColor([0.17, 0.66, 0.37, 1.01], arrayVertices.length / 3, 3);
 
     const obj = new Shape();
-    obj.initData(bufferVertices, objColor, objNormals);
+    obj.initData(arrayVertices, objColor, arrayNormals);
 
     return obj;
-
 }
 
 function getUniformColor(color, faceCount, vertexCount) {
@@ -129,4 +112,14 @@ function getRandomColors(faceCount, vertexCount) {
 
 function randomColor() {
     return [Math.random(), Math.random(), Math.random(), 1];
+}
+
+function clearPreviousData() {
+    objVertices = [[0, 0, 0,]];
+    objTextures = [[0, 0, 0,]];
+    objNormals = [[0, 0, 0,]];
+
+    arrayVertices = [];
+    arrayTextures = [];
+    arrayNormals = [];
 }

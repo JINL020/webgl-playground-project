@@ -3,7 +3,6 @@ class Shape {
     constructor() {
         this.vertices = [];
         this.colors = [];
-        this.normals = [];
         this.buffers = {
             /* --------- initialize buffers --------- */
             vertexBuffer: gl.createBuffer(),
@@ -25,7 +24,6 @@ class Shape {
         this.vertices = new Float32Array(vertices.flat());
         this.colors = new Float32Array(colors.flat());
         this.normals = new Float32Array(normals.flat());
-
 
         /* --------- send data to buffers --------- */
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.vertexBuffer);
@@ -51,7 +49,7 @@ class Shape {
         gl.uniformMatrix3fv(currentProgram.uniforms.normalMatrix, gl.FALSE, this.normalMatrix);
 
         /* --------- draw the shape --------- */
-        gl.drawArrays(gl.TRIANGLES, 0, (this.vertices.length / 4) - 6);
+        gl.drawArrays(gl.TRIANGLES, 0, (this.vertices.length / 4));
     }
 
     translate(vector) {

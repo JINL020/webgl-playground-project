@@ -47,3 +47,5 @@ const shaderPrograms = {
     phong: null,
     normal: null
 }
+
+var pacman = null;

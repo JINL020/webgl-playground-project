@@ -28,19 +28,39 @@ window.onload = function main() {
 
     shaderPrograms.normal.enable();
 
-
+    pacman = new Pacman();
     /* --------- create shapes --------- */
-    loadOBJFile("/lab1c/sampleModels/teapot.obj")
+    loadOBJFile("/lab1c_test/sampleModels/pacman_head.obj").then(head => {
+        pacman.initHead(head);
+        //shapes.push(head);
+    })
+    loadOBJFile("/lab1c_test/sampleModels/pacman_body.obj").then(body => {
+        pacman.initBody(body);
+        render();
+        //shapes.push(body);
+    })
 
 
-    /* --------- add EventListener --------- */
+    /* --------- add listeners --------- */
     window.addEventListener("keydown", function (event) {
         keyPressed(event);
     });
 
+    window.addEventListener("mousedown", (event) => {
+        mouseDownFunction(event)
+    });
+
+    window.addEventListener("mousemove", (event) => {
+        mouseMoveFunction(event);
+    });
+
+    window.addEventListener("mouseup", (event) => {
+        mouseUpFunction(event)
+    });
+
 
     /* --------- start render loop --------- */
-    render();
+    //render();
 }
 
 
@@ -53,9 +73,7 @@ function render(now = 0) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    shapes.forEach(shape => {
-        shape.draw();
-    });
+    pacman.draw();
 
     requestAnimationFrame(render)
 }
