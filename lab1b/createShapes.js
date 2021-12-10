@@ -20,7 +20,7 @@ function createAllShapes() {
             shapes[i].translate(shapesStartPos[i])
         }
         else {
-            loadOBJFile("/sampleModels/teapot.obj").then(value => {
+            loadOBJFile("/lab1b/sampleModels/teapot.obj").then(value => {
                 shapes[i].translate(shapesStartPos[i])
             });
         }

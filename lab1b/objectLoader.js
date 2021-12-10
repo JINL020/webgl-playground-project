@@ -74,7 +74,7 @@ function getBufferVertices() {
         }
     }
     //console.log(vertexToSend);
-    return vertexToSend.flat();
+    return vertexToSend;
 }
 
 function getBufferVertexNormals() {
@@ -94,6 +94,7 @@ function getObj() {
 
     let objNormals = getBufferVertexNormals();
 
+    //console.log(bufferVertices);
     const obj = new Shape();
     obj.initData(bufferVertices, objColor, objNormals);
 

@@ -5,7 +5,7 @@ var startY = 0;
 var viewTranslation = [0, 0, 0];
 
 function mouseDownFunction(event) {
-    console.log("mouse down");
+    //console.log("mouse down");
     event.preventDefault();
     mouseDown = true;
     startX = event.clientX;
@@ -13,7 +13,7 @@ function mouseDownFunction(event) {
 }
 
 function mouseMoveFunction(event) {
-    console.log("mouse move");
+    //console.log("mouse move");
     event.preventDefault();
     if (mouseDown) {
 
