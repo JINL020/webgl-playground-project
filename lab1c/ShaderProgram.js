@@ -2,6 +2,8 @@ class ShaderProgram {
 
     constructor(vShaderId, fShaderId, shaderInfo) {
         // Create shader program using the provided vertex and fragment shader ids
+        createTexture("/lab1c/textures/pacman_game_colors.png");
+
         this.program = createShaderProgram(vShaderId, fShaderId);
         gl.useProgram(this.program)
 
@@ -32,21 +34,18 @@ class ShaderProgram {
 
 }
 
-function loadShader(shaderId, shaderType) {
+function createTexture(path) {
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
 
-    const shader = gl.createShader(shaderType);
-
-    gl.shaderSource(shader, document.getElementById(shaderId).text);
-    gl.compileShader(shader);
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Error while compiling shader", gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-    }
-
-    return shader;
-
+    var image = new Image();
+    image.src = path;
+    image.addEventListener('load', function () {
+        // Now that the image has loaded make copy it to the texture.
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        gl.generateMipmap(gl.TEXTURE_2D);
+    });
 }
 
 function createShaderProgram(vShaderId, fShaderId) {
@@ -74,5 +73,22 @@ function createShaderProgram(vShaderId, fShaderId) {
     }
 
     return program;
+
+}
+
+function loadShader(shaderId, shaderType) {
+
+    const shader = gl.createShader(shaderType);
+
+    gl.shaderSource(shader, document.getElementById(shaderId).text);
+    gl.compileShader(shader);
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error("Error while compiling shader", gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+    }
+
+    return shader;
 
 }

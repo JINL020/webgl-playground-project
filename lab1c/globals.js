@@ -23,9 +23,8 @@ const matrices = {
 const shaderInfo = {
     attributes: {
         vertexLocation: "vPosition",
-        colorLocation: "vColor",
-        normalLocation: "vNormal"
-
+        textureLocation: "vTextureCoord",
+        normalLocation: "vNormal",
     }, uniforms: {
         modelMatrix: "modelMatrix",
         viewMatrix: "viewMatrix",
@@ -35,7 +34,8 @@ const shaderInfo = {
         ambientProduct: "ambientProduct",
         diffuseProduct: "diffuseProduct",
         specularProduct: "specularProduct",
-        shininess: "shininess"
+        shininess: "shininess",
+        sampler: "sampler"
     }
 
 }
@@ -49,3 +49,4 @@ const shaderPrograms = {
 }
 
 var pacman = null;
+var maze = null;

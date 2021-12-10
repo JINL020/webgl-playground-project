@@ -2,11 +2,12 @@ class Shape {
 
     constructor() {
         this.vertices = [];
-        this.colors = [];
+        this.texture = [];
+        this.normals = [];
         this.buffers = {
             /* --------- initialize buffers --------- */
             vertexBuffer: gl.createBuffer(),
-            colorBuffer: gl.createBuffer(),
+            textureBuffer: gl.createBuffer(),
             normalBuffer: gl.createBuffer(),
         }
         /* --------- initialize transformation matrix --------- */
@@ -19,18 +20,18 @@ class Shape {
         this.helper = mat4.create();
     }
 
-    initData(vertices, colors, normals) {
+    initData(vertices, texture, normals) {
         /* --------- flatten & convert to 32 bit float arrays --------- */
         this.vertices = new Float32Array(vertices.flat());
-        this.colors = new Float32Array(colors.flat());
+        this.texture = new Float32Array(texture.flat());
         this.normals = new Float32Array(normals.flat());
 
         /* --------- send data to buffers --------- */
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.STATIC_DRAW);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.colorBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, this.colors, gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.textureBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, this.texture, gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffers.normalBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.STATIC_DRAW);
@@ -39,8 +40,8 @@ class Shape {
     draw() {
         /* --------- set up attribute arrays --------- */
         Shape.setupAttribute(this.buffers.vertexBuffer, currentProgram.attributes.vertexLocation);
-        Shape.setupAttribute(this.buffers.colorBuffer, currentProgram.attributes.colorLocation);
-        Shape.setupAttribute(this.buffers.normalBuffer, currentProgram.attributes.normalLocation, true);
+        Shape.setupAttribute(this.buffers.textureBuffer, currentProgram.attributes.textureLocation, true, false);
+        Shape.setupAttribute(this.buffers.normalBuffer, currentProgram.attributes.normalLocation, false, true);
 
         /* --------- send transformation matrix --------- */
         gl.uniformMatrix4fv(currentProgram.uniforms.modelMatrix, gl.FALSE, this.modelMatrix);
@@ -74,7 +75,7 @@ class Shape {
         mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
     }
 
-    static setupAttribute(buffer, location, isNormal = false) {
+    static setupAttribute(buffer, location, isTexture = false, isNormal = false,) {
         if (location === -1)
             return;
 
@@ -82,10 +83,10 @@ class Shape {
 
         gl.vertexAttribPointer(
             location, // The location of the attribute
-            isNormal ? 3 : 4, // How many elements does each vertex consist of?
+            isTexture ? 2 : (isNormal ? 3 : 4), // How many elements does each vertex consist of?
             gl.FLOAT, // Datatype of the attribute
             gl.FALSE, // Is our data normalized?
-            (isNormal ? 3 : 4) * Float32Array.BYTES_PER_ELEMENT, // size for one vertex
+            isTexture ? 0 : (isNormal ? 3 : 4) * Float32Array.BYTES_PER_ELEMENT, // size for one vertex
             0 // Offset from the begin of the vertex to the attribute start
         );
 

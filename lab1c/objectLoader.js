@@ -81,37 +81,9 @@ function processVertex(vertexData) {
 }
 
 function getObj() {
-    let objColor = getUniformColor([0.17, 0.66, 0.37, 1.01], arrayVertices.length / 3, 3);
-
     const obj = new Shape();
-    obj.initData(arrayVertices, objColor, arrayNormals);
-
+    obj.initData(arrayVertices, arrayTextures, arrayNormals);
     return obj;
-}
-
-function getUniformColor(color, faceCount, vertexCount) {
-    let colors = [];
-    for (let faceNo = 0; faceNo < faceCount; faceNo++) {
-        for (let vertexNo = 0; vertexNo < vertexCount; vertexNo++) {
-            colors.push(color);
-        }
-    }
-    return colors;
-}
-
-function getRandomColors(faceCount, vertexCount) {
-    let colors = [];
-    for (let faceNo = 0; faceNo < faceCount; faceNo++) {
-        let faceColor = randomColor();
-        for (let vertexNo = 0; vertexNo < vertexCount; vertexNo++) {
-            colors.push(...faceColor);
-        }
-    }
-    return colors;
-}
-
-function randomColor() {
-    return [Math.random(), Math.random(), Math.random(), 1];
 }
 
 function clearPreviousData() {
