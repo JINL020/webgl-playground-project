@@ -24,12 +24,11 @@ window.onload = function main() {
     shaderPrograms.phong = new ShaderProgram(shaderIds.phongVertex, shaderIds.phongFragment, shaderInfo);
     shaderPrograms.normal = new ShaderProgram(shaderIds.normalVertex, shaderIds.normalFragment, shaderInfo);
 
-    shaderPrograms.normal.enable();
-
-    pacman = new Pacman();
+    shaderPrograms.phong.enable();
 
 
     /* --------- create shapes --------- */
+    pacman = new Pacman();
 
     loadOBJFile("/lab1c/assets/pacman_head.obj").then(head => {
         pacman.initHead(head);
@@ -39,6 +38,7 @@ window.onload = function main() {
         pacman.initBody(body);
 
     })
+    pacman.setDirection(Direction.DOWN);
 
     loadOBJFile("/lab1c/assets/maze.obj").then(obj => {
         maze = obj;

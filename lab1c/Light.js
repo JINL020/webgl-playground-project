@@ -1,4 +1,4 @@
-var lightPosition = [0.0, 15.0, 15.0];
+var lightPosition = [0.0, 15.0, 15];
 
 var ambientLight = [1.0, 1.0, 1.0, 1.0];
 var diffuseLight = [1.0, 1.0, 1.0, 1.0];
