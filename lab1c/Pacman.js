@@ -3,6 +3,7 @@ class Pacman {
     constructor() {
         this.head = null;
         this.body = null;
+        this.direction = null;
     }
 
     initHead(head) {
@@ -11,6 +12,10 @@ class Pacman {
 
     initBody(body) {
         this.body = body;
+    }
+
+    setDirection(direction) {
+        this.direction = direction;
     }
 
     draw() {
