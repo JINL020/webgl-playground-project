@@ -76,7 +76,10 @@ function parseOBJfile(text) {
 
 function processVertex(vertexData) {
     arrayVertices.push(objVertices[vertexData[0]]);
-    arrayTextures.push(objTextures[vertexData[1]]);
+    // 1 - texture[1] because openGL starts from top-left and blender starts from bottom-left
+    let texture = objTextures[vertexData[1]];
+    arrayTextures.push(texture[0]);
+    arrayTextures.push(1 - texture[1]);
     arrayNormals.push(objNormals[vertexData[2]]);
 }
 

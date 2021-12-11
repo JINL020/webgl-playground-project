@@ -26,7 +26,7 @@ function mouseMoveFunction(event) {
         viewTranslation[0] += deltaX / 100;
         viewTranslation[1] += deltaY / 100;
     }
-    mat4.lookAt(matrices.view, [0, 30, 30], [viewTranslation[0], viewTranslation[1], 0], [0, 1, 0]);
+    mat4.lookAt(matrices.view, COP, [viewTranslation[0], viewTranslation[1], 0], [0, 1, 0]);
     gl.uniformMatrix4fv(currentProgram.uniforms.viewMatrix, gl.FALSE, matrices.view);
 }
 

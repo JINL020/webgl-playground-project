@@ -18,7 +18,7 @@ window.onload = function main() {
     gl.enable(gl.DEPTH_TEST);
 
     mat4.perspective(matrices.projection, toRad(45), canvas.clientWidth / canvas.clientHeight, 0.1, 100);// vertical field-of-view, aspect W/H, near cull distance, far cull distance
-    mat4.lookAt(matrices.view, [0, 30, 30], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(matrices.view, COP, [0, 0, 0], [0, 1, 0]);
 
     /* --------- create shaders --------- */
     shaderPrograms.phong = new ShaderProgram(shaderIds.phongVertex, shaderIds.phongFragment, shaderInfo);
@@ -28,19 +28,22 @@ window.onload = function main() {
 
     pacman = new Pacman();
 
+
     /* --------- create shapes --------- */
+
     loadOBJFile("/lab1c/assets/pacman_head.obj").then(head => {
         pacman.initHead(head);
     })
+
     loadOBJFile("/lab1c/assets/pacman_body.obj").then(body => {
         pacman.initBody(body);
-        render();
+
     })
 
-    /*loadOBJFile("/lab1c/assets/maze.obj").then(obj => {
+    loadOBJFile("/lab1c/assets/maze.obj").then(obj => {
         maze = obj;
         render();
-    })*/
+    })
 
 
     /* --------- add listeners --------- */
@@ -75,8 +78,9 @@ function render(now = 0) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    //pacman.head.draw();
     pacman.draw();
-    //maze.draw();
+    maze.draw();
 
     requestAnimationFrame(render);
 }
