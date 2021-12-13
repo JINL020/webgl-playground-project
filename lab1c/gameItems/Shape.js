@@ -11,13 +11,14 @@ class Shape {
             normalBuffer: gl.createBuffer(),
         }
         /* --------- initialize transformation matrix --------- */
-        this.modelMatrix = mat4.create();
-        this.translationMatrix = mat4.create();
-        this.normalMatrix = mat3.create();
+        this.modelMatrix = mat4.create();;
 
+        this.translationMatrix = mat4.create()
         this.rotationMatrix = mat4.create();
         this.scaleMatrix = mat4.create();
-        this.helper = mat4.create();
+
+        this.normalMatrix = mat3.create();
+
     }
 
     initData(vertices, texture, normals) {
@@ -55,24 +56,24 @@ class Shape {
 
     translate(vector) {
         mat4.translate(this.translationMatrix, this.translationMatrix, vector);
-
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
-        //mat4.translate(this.modelMatrix, this.modelMatrix, vector);
+        updateModelMatrix();
     }
 
     rotate(angle, axes) {
         mat4.rotate(this.rotationMatrix, this.rotationMatrix, angle, axes);
-
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
+        updateModelMatrix();
     }
 
     scale(vector) {
         mat4.scale(this.scaleMatrix, this.scaleMatrix, vector);
+        updateModelMatrix();
+    }
 
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
+    updateModelMatrix() {
+        this.modelMatrix = mat4.create();
+        mat4.multiply(this.modelMatrix, this.rotationMatrix, this.modelMatrix);
+        mat4.multiply(this.modelMatrix, this.scaleMatrix, this.modelMatrix);
+        mat4.multiply(this.modelMatrix, this.translationMatrix, this.modelMatrix);
     }
 
     static setupAttribute(buffer, location, isTexture = false, isNormal = false,) {
