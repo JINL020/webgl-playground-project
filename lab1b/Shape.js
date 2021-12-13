@@ -100,24 +100,24 @@ class Shape {
 
     translate(vector) {
         mat4.translate(this.translationMatrix, this.translationMatrix, vector);
-
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
-        //mat4.translate(this.modelMatrix, this.modelMatrix, vector);
+        this.updateModelMatrix();
     }
 
     rotate(angle, axes) {
         mat4.rotate(this.rotationMatrix, this.rotationMatrix, angle, axes);
-
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
+        this.updateModelMatrix();
     }
 
     scale(vector) {
         mat4.scale(this.scaleMatrix, this.scaleMatrix, vector);
+        this.updateModelMatrix();
+    }
 
-        mat4.multiply(this.helper, this.rotationMatrix, this.scaleMatrix);
-        mat4.multiply(this.modelMatrix, this.translationMatrix, this.helper);
+    updateModelMatrix() {
+        this.modelMatrix = mat4.create();
+        mat4.multiply(this.modelMatrix, this.rotationMatrix, this.modelMatrix);
+        mat4.multiply(this.modelMatrix, this.scaleMatrix, this.modelMatrix);
+        mat4.multiply(this.modelMatrix, this.translationMatrix, this.modelMatrix);
     }
 
     static setupAttribute(buffer, location, isNormal = false) {
