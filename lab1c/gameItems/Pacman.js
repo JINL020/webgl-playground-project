@@ -1,17 +1,23 @@
 class Pacman {
 
     constructor() {
-        this.head = null;
-        this.body = null;
+        this.version = [];
+        this.currentVersion = null;
+        this.animationSequence = [3, 2, 1, 0, 1, 2];
         this.direction = null;
     }
 
-    initHead(head) {
-        this.head = head;
+
+    initData(versionArray) {
+        this.version = versionArray;
+        this.currentVersion
+        this.updateCurrentVersion();
     }
 
-    initBody(body) {
-        this.body = body;
+    updateCurrentVersion() {
+        this.currentVersion = this.animationSequence[0];
+        this.animationSequence.push(this.animationSequence[0]);
+        this.animationSequence.shift();
     }
 
     setDirection(direction) {
@@ -19,35 +25,22 @@ class Pacman {
     }
 
     draw() {
-        this.head.draw();
-        this.body.draw();
+        this.version[this.currentVersion].draw();
     }
 
     translate(vector) {
-        this.head.translate(vector);
-        this.body.translate(vector);
+        this.version[this.currentVersion].translate(vector);
     }
 
     rotate(angle, axes) {
-        this.head.rotate(angle, axes);
-        this.body.rotate(angle, axes);
+        this.version.forEach(pacmanVersion => pacmanVersion.rotate(angle, axes));
     }
 
     scale(vector) {
-        this.head.scale(vector);
-        this.body.scale(vector);
+        this.version[this.currentVersion].scale(vector);
     }
 
     turn(angle) {
-        this.head.rotate(angle, [0, 1, 0]);
-        this.body.rotate(angle, [0, 1, 0]);
-    }
-
-    openMouth(angle) {
-        this.head.rotate(angle, [1, 0, 0]);
-    }
-
-    closeMouth(angle) {
-        this.head.rotate(angle, [1, 0, 0]);
+        this.version.forEach(pacmanVersion => pacmanVersion.rotate(angle, [0, 1, 0]));
     }
 }

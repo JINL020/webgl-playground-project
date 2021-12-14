@@ -56,17 +56,17 @@ class Shape {
 
     translate(vector) {
         mat4.translate(this.translationMatrix, this.translationMatrix, vector);
-        updateModelMatrix();
+        this.updateModelMatrix();
     }
 
     rotate(angle, axes) {
         mat4.rotate(this.rotationMatrix, this.rotationMatrix, angle, axes);
-        updateModelMatrix();
+        this.updateModelMatrix();
     }
 
     scale(vector) {
         mat4.scale(this.scaleMatrix, this.scaleMatrix, vector);
-        updateModelMatrix();
+        this.updateModelMatrix();
     }
 
     updateModelMatrix() {

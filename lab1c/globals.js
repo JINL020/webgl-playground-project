@@ -51,4 +51,4 @@ const shaderPrograms = {
 var pacman = null;
 var maze = null;
 
-var COP = [-2, 50, 35];
+var COP = [0, 0, 10];

@@ -1,5 +1,5 @@
 /* --------- main --------- */
-window.onload = function main() {
+window.onload = async function main() {
 
     /* --------- basic setup --------- */
     canvas = document.getElementById('myCanvas');
@@ -30,20 +30,22 @@ window.onload = function main() {
     /* --------- create shapes --------- */
     pacman = new Pacman();
 
-    loadOBJFile("/lab1c/assets/pacman_head.obj").then(head => {
-        pacman.initHead(head);
-    })
+    const result = await Promise.all([
+        loadOBJFile("/lab1c/assets/pacman0.obj"),
+        loadOBJFile("/lab1c/assets/pacman1.obj"),
+        loadOBJFile("/lab1c/assets/pacman2.obj"),
+        loadOBJFile("/lab1c/assets/pacman3.obj")
+    ]);
 
-    loadOBJFile("/lab1c/assets/pacman_body.obj").then(body => {
-        pacman.initBody(body);
+    pacman.initData(result);
+    render();
 
-    })
-    pacman.setDirection(Direction.DOWN);
-
+    /*
     loadOBJFile("/lab1c/assets/maze.obj").then(obj => {
         maze = obj;
-        render();
-    })
+        //render();
+    }) * /
+
 
 
     /* --------- add listeners --------- */
@@ -68,19 +70,55 @@ window.onload = function main() {
     //render();
 }
 
-
+/*
 let then = 0;
-function render(now = 0) {
-    /* --------- calculate time per frame in seconds --------- */
-    let delta = now - then;
-    delta *= 0.001;
-    then = now;
 
+function render(now = 0) {
+     //--------- calculate time per frame in seconds --------- 
+let delta = now - then;
+delta *= 0.001;
+then = now;
+
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+//pacman.head.draw();
+pacman.draw();
+//maze.draw();
+
+requestAnimationFrame(render);
+}
+*/
+
+var now = Date.now();
+var then = Date.now();
+var deltaTime = now - then;
+
+var chewingTimer = 0;
+var openMouth = true;
+
+function render() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    //pacman.head.draw();
-    pacman.draw();
-    maze.draw();
+    now = Date.now()
+    deltaTime = (now - then) * 0.001;
+    then = now;
 
+    chewingTimer += deltaTime;
+
+    if (chewingTimer >= 0.2) {
+        chewingTimer = 0;
+        pacman.updateCurrentVersion();;
+    }
+    pacman.draw();
     requestAnimationFrame(render);
 }
+
+/*
+function render() {
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    pacman.draw();
+
+
+    requestAnimationFrame(render);
+}*/
