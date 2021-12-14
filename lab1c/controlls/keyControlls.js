@@ -46,9 +46,8 @@ function keyPressed(event) {
             if (selectCamera)
                 viewTranslation[0] -= step
             if (selectPacman) {
-                pacman.setDirection(Direction.LEFT);
+                pacman.faceTowards(Direction.LEFT);
                 pacman.translate([-step, 0, 0]);
-                pacman.rotate(0.1, [0, 1, 0]);
             }
             if (selectLight) {
                 vec3.add(lightPosition, lightPosition, [-step, 0, 0]);
@@ -58,9 +57,9 @@ function keyPressed(event) {
             if (selectCamera)
                 viewTranslation[0] += step
             if (selectPacman) {
-                pacman.setDirection(Direction.RIGHT);
+                pacman.faceTowards(Direction.RIGHT);
                 pacman.translate([step, 0, 0]);
-                pacman.rotate(-0.1, [0, 1, 0]);
+
             }
             if (selectLight) {
                 vec3.add(lightPosition, lightPosition, [step, 0, 0]);
@@ -70,7 +69,7 @@ function keyPressed(event) {
             if (selectCamera)
                 viewTranslation[1] += step;
             if (selectPacman) {
-                pacman.setDirection(Direction.UP);
+                pacman.faceTowards(Direction.UP);
                 pacman.translate([0, 0, -step]);
             }
             if (selectLight) {
@@ -81,7 +80,7 @@ function keyPressed(event) {
             if (selectCamera)
                 viewTranslation[1] -= step;
             if (selectPacman) {
-                pacman.setDirection(Direction.DOWN);
+                pacman.faceTowards(Direction.DOWN);
                 pacman.translate([0, 0, step]);
             }
             if (selectLight) {

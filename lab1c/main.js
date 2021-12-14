@@ -94,7 +94,6 @@ var then = Date.now();
 var deltaTime = now - then;
 
 var chewingTimer = 0;
-var openMouth = true;
 
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -105,9 +104,9 @@ function render() {
 
     chewingTimer += deltaTime;
 
-    if (chewingTimer >= 0.2) {
+    if (chewingTimer >= 0.15) {
         chewingTimer = 0;
-        pacman.updateCurrentVersion();;
+        pacman.updateChewingAnimation();;
     }
     pacman.draw();
     requestAnimationFrame(render);

@@ -4,17 +4,16 @@ class Pacman {
         this.version = [];
         this.currentVersion = null;
         this.animationSequence = [3, 2, 1, 0, 1, 2];
-        this.direction = null;
+        this.direction = Direction.DOWN;
     }
 
 
     initData(versionArray) {
         this.version = versionArray;
-        this.currentVersion
-        this.updateCurrentVersion();
+        this.updateChewingAnimation();
     }
 
-    updateCurrentVersion() {
+    updateChewingAnimation() {
         this.currentVersion = this.animationSequence[0];
         this.animationSequence.push(this.animationSequence[0]);
         this.animationSequence.shift();
@@ -29,7 +28,7 @@ class Pacman {
     }
 
     translate(vector) {
-        this.version[this.currentVersion].translate(vector);
+        this.version.forEach(pacmanVersion => pacmanVersion.translate(vector));
     }
 
     rotate(angle, axes) {
@@ -40,7 +39,8 @@ class Pacman {
         this.version[this.currentVersion].scale(vector);
     }
 
-    turn(angle) {
-        this.version.forEach(pacmanVersion => pacmanVersion.rotate(angle, [0, 1, 0]));
+    faceTowards(direction) {
+        this.version.forEach(pacmanVersion => pacmanVersion.rotate(Direction.getTurnAngle(this.direction, direction), [0, 1, 0]));
+        this.direction = direction;
     }
 }
