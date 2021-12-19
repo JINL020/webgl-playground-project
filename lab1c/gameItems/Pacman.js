@@ -27,6 +27,23 @@ class Pacman {
         this.version.forEach(pacmanVersion => pacmanVersion.translate(vector));
     }
 
+    run(distance) {
+        switch (this.direction) {
+            case Direction.LEFT:
+                this.version.forEach(pacmanVersion => pacmanVersion.translate([-distance, 0, 0]));
+                break;
+            case Direction.RIGHT:
+                this.version.forEach(pacmanVersion => pacmanVersion.translate([distance, 0, 0]));
+                break;
+            case Direction.UP:
+                this.version.forEach(pacmanVersion => pacmanVersion.translate([0, 0, -distance]));
+                break;
+            case Direction.DOWN:
+                this.version.forEach(pacmanVersion => pacmanVersion.translate([0, 0, distance]));
+                break;
+        }
+    }
+
     faceTowards(direction) {
         this.version.forEach(pacmanVersion => pacmanVersion.rotate(Direction.getTurnAngle(this.direction, direction), [0, 1, 0]));
         this.direction = direction;

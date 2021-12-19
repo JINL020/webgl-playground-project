@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebGL - Test</title>
 
     <script src="gl-matrix-min.js"></script>
@@ -12,7 +11,6 @@
     <script type="text/javascript" src="gameItems/Shape.js"></script>
     <script type="text/javascript" src="gameItems/Pacman.js"></script>
     <script type="text/javascript" src="gameItems/Direction.js"></script>
-    <script type="text/javascript" src="controlls/mouseControlls.js"></script>
     <script type="text/javascript" src="controlls/keyControlls.js"></script>
     <script type="text/javascript" src="gameItems/objectLoader.js"></script>
     <script type="text/javascript" src="ShaderProgram.js"></script>
@@ -20,120 +18,119 @@
     <script type="text/javascript" src="main.js"></script>
 
     <script id="phong-vertex-shader" type="x-shader/x-vertex">
-        precision mediump float;
-        
-        attribute vec4 vPosition;
-        attribute vec2 vTextureCoord;
-        attribute vec3 vNormal;
-        
-        uniform mat4 modelMatrix;
-        uniform mat4 viewMatrix;
-        uniform mat4 projectionMatrix;
-        uniform mat3 normalMatrix;
+      precision mediump float;
 
-        uniform vec3 lightPosition;
+      attribute vec4 vPosition;
+      attribute vec2 vTextureCoord;
+      attribute vec3 vNormal;
 
-        varying vec3 L;
-        varying vec3 N;
-        varying vec3 V;
-        
-        varying vec2 fTextureCoord;
+      uniform mat4 modelMatrix;
+      uniform mat4 viewMatrix;
+      uniform mat4 projectionMatrix;
+      uniform mat3 normalMatrix;
 
-        void main()
-        {
-            vec3 P = (modelMatrix * vPosition).xyz; // worldPos
-            L = normalize(lightPosition - P); // lightVector: P to point light source
-            N = normalize(normalMatrix * vNormal); // normalVector: normal vector to the plane/surface
-            V = -normalize(P); // P to eye (view point) or center of projection
+      uniform vec3 lightPosition;
 
-            fTextureCoord = vTextureCoord;;
-            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
-        }
+      varying vec3 L;
+      varying vec3 N;
+      varying vec3 V;
+
+      varying vec2 fTextureCoord;
+
+      void main()
+      {
+          vec3 P = (modelMatrix * vPosition).xyz; // worldPos
+          L = normalize(lightPosition - P); // lightVector: P to point light source
+          N = normalize(normalMatrix * vNormal); // normalVector: normal vector to the plane/surface
+          V = -normalize(P); // P to eye (view point) or center of projection
+
+          fTextureCoord = vTextureCoord;;
+          gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
+      }
     </script>
 
     <script id="phong-fragment-shader" type="x-shader/x-fragment">
-        precision mediump float;
+      precision mediump float;
 
-        uniform vec4 ambientProduct;
-        uniform vec4 diffuseProduct;
-        uniform vec4 specularProduct;
-        uniform float shininess;
-        
-        varying vec3 L;
-        varying vec3 N;
-        varying vec3 V;
+      uniform vec4 ambientProduct;
+      uniform vec4 diffuseProduct;
+      uniform vec4 specularProduct;
+      uniform float shininess;
 
-        uniform sampler2D sampler;
-        varying vec2 fTextureCoord;
-        
-        void main()
-        {
-            normalize(L);
-            normalize(N);
-            normalize(V);
+      varying vec3 L;
+      varying vec3 N;
+      varying vec3 V;
 
-            vec3 R = normalize(-reflect(L, N));
+      uniform sampler2D sampler;
+      varying vec2 fTextureCoord;
 
-            vec4 ambient = ambientProduct;
-            vec4  diffuse = diffuseProduct * max( dot(L, N), 0.0 );
-            vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
+      void main()
+      {
+          normalize(L);
+          normalize(N);
+          normalize(V);
 
-            gl_FragColor = texture2D(sampler, fTextureCoord)*(ambient + specular + diffuse);
-        }
+          vec3 R = normalize(-reflect(L, N));
+
+          vec4 ambient = ambientProduct;
+          vec4  diffuse = diffuseProduct * max( dot(L, N), 0.0 );
+          vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
+
+          gl_FragColor = texture2D(sampler, fTextureCoord)*(ambient + specular + diffuse);
+      }
     </script>
 
     <script id="vertex-shader" type="x-shader/x-vertex">
-        precision mediump float;
-        
-        attribute vec4 vPosition;
-        attribute vec2 vTextureCoord;
-        
-        uniform mat4 modelMatrix;
-        uniform mat4 viewMatrix;
-        uniform mat4 projectionMatrix;
+      precision mediump float;
 
-        varying vec2 fTextureCoord;
-        
-        void main()
-        {
-          gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
-          fTextureCoord = vTextureCoord;
-        }
+      attribute vec4 vPosition;
+      attribute vec2 vTextureCoord;
+
+      uniform mat4 modelMatrix;
+      uniform mat4 viewMatrix;
+      uniform mat4 projectionMatrix;
+
+      varying vec2 fTextureCoord;
+
+      void main()
+      {
+        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
+        fTextureCoord = vTextureCoord;
+      }
     </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
-        precision mediump float;
-        
-        varying vec2 fTextureCoord;
-        uniform sampler2D sampler;
-        
-        void main()
-        {
-          gl_FragColor = texture2D(sampler, fTextureCoord);
-        }
+      precision mediump float;
+
+      varying vec2 fTextureCoord;
+      uniform sampler2D sampler;
+
+      void main()
+      {
+        gl_FragColor = texture2D(sampler, fTextureCoord);
+      }
     </script>
 
     <style>
-        h1 {
-            text-align: center;
-        }
+      h1 {
+        text-align: center;
+      }
 
-        #myCanvas {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
+      #myCanvas {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>2021WS_GFX - Lab 1c</h1>
     <canvas id="myCanvas" width="1200" height="600">
-        Your browser does not support HTML5
+      Your browser does not support HTML5
     </canvas>
-</body>
-
+  </body>
 </html>
