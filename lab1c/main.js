@@ -38,13 +38,14 @@ window.onload = async function main() {
     ]);
 
     pacman.initData(result);
-    render();
+    //render();
 
-    /*
+
     loadOBJFile("/lab1c/assets/maze.obj").then(obj => {
         maze = obj;
-        //render();
-    }) * /
+        maze.translate([0, -1, 0]);
+        render();
+    })
 
 
 
@@ -52,54 +53,16 @@ window.onload = async function main() {
     window.addEventListener("keydown", function (event) {
         keyPressed(event);
     });
-
-    window.addEventListener("mousedown", (event) => {
-        mouseDownFunction(event)
-    });
-
-    window.addEventListener("mousemove", (event) => {
-        mouseMoveFunction(event);
-    });
-
-    window.addEventListener("mouseup", (event) => {
-        mouseUpFunction(event)
-    });
-
-
-    /* --------- start render loop --------- */
-    //render();
 }
 
-/*
-let then = 0;
-
-function render(now = 0) {
-     //--------- calculate time per frame in seconds --------- 
-let delta = now - then;
-delta *= 0.001;
-then = now;
-
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-//pacman.head.draw();
-pacman.draw();
-//maze.draw();
-
-requestAnimationFrame(render);
-}
-*/
-
-var now = Date.now();
 var then = Date.now();
-var deltaTime = now - then;
-
 var chewingTimer = 0;
 
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    now = Date.now()
-    deltaTime = (now - then) * 0.001;
+    let now = Date.now()
+    let deltaTime = (now - then) * 0.001;
     then = now;
 
     chewingTimer += deltaTime;
@@ -108,16 +71,9 @@ function render() {
         chewingTimer = 0;
         pacman.updateChewingAnimation();;
     }
+
     pacman.draw();
+    maze.draw();
+
     requestAnimationFrame(render);
 }
-
-/*
-function render() {
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    pacman.draw();
-
-
-    requestAnimationFrame(render);
-}*/

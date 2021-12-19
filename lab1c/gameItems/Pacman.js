@@ -19,24 +19,12 @@ class Pacman {
         this.animationSequence.shift();
     }
 
-    setDirection(direction) {
-        this.direction = direction;
-    }
-
     draw() {
         this.version[this.currentVersion].draw();
     }
 
     translate(vector) {
         this.version.forEach(pacmanVersion => pacmanVersion.translate(vector));
-    }
-
-    rotate(angle, axes) {
-        this.version.forEach(pacmanVersion => pacmanVersion.rotate(angle, axes));
-    }
-
-    scale(vector) {
-        this.version[this.currentVersion].scale(vector);
     }
 
     faceTowards(direction) {
