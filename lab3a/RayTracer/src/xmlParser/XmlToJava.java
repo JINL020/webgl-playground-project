@@ -15,6 +15,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import camera.Camera;
+import surfaces.Sphere;
+
 public class XmlToJava {
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;
