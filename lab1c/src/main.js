@@ -23,8 +23,9 @@ window.onload = async function main() {
     0.1,
     100
   ); // vertical field-of-view, aspect W/H, near cull distance, far cull distance
-  mat4.lookAt(matrices.view, COP, [0, 0, 0], [0, 1, 0]);
-
+  mat4.lookAt(matrices.view, [0, 20, 20], [0, 0, 0], [0, 1, 0]);
+  mat4.translate(matrices.view, matrices.view, [0, 0, -12]);
+  mat4.translate(matrices.view, matrices.view, [-15, 0, 0]);
   /* --------- create shaders --------- */
   shaderPrograms.phong = new ShaderProgram(
     shaderIds.phongVertex,
@@ -40,7 +41,12 @@ window.onload = async function main() {
   shaderPrograms.phong.enable();
 
   /* --------- create shapes --------- */
-  pacman = new Pacman();
+  maze = new Maze();
+  maze.initData();
+
+  const pacmanPos = maze.getPacmanPos();
+  console.log(pacmanPos);
+  pacman = new Pacman(pacmanPos[0], pacmanPos[1]);
 
   const result = await Promise.all([
     loadOBJFile("/lab1c/assets/pacman0.obj"),
@@ -50,15 +56,8 @@ window.onload = async function main() {
   ]);
 
   pacman.initData(result);
-  //render();
 
-  loadOBJFile("/lab1c/assets/maze.obj").then((obj) => {
-    maze = obj;
-    maze.translate([0, -1, 0]);
-    render();
-  });
-
-  //const maze = new Maze();
+  render();
 
   /* --------- add listeners --------- */
   window.addEventListener("keydown", function (event) {
