@@ -76,4 +76,9 @@ public class Vec3 extends Vector {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return "Vec3 [x=" + x + ", y=" + y + ", z=" + z + "]";
+	}
+
 }

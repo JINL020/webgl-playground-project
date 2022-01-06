@@ -1,5 +1,7 @@
 package surfaces;
 
+import org.w3c.dom.Node;
+
 import primitives.Vec3;
 
 public class Sphere {
@@ -7,10 +9,27 @@ public class Sphere {
 	private Vec3 position;
 	private Material material;
 
-	public Sphere(float radius, Vec3 position, Material material) {
+	public Sphere(float radius, Node position, Node material) {
 		super();
 		this.radius = radius;
-		this.position = position;
-		this.material = material;
+		this.position = new Vec3(position);
+		this.material = new Material(material);
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public Vec3 getPosition() {
+		return position;
+	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	@Override
+	public String toString() {
+		return "Sphere [radius=" + radius + ", position=" + position + ", material=" + material + "]";
 	}
 }

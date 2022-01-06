@@ -52,10 +52,10 @@ public class NodeProcessor {
 		return camera;
 	}
 
-	public static List<Object> processLightsNode(Node node) {
+	public static List<Light> processLightNodes(Node node) {
 		NodeList nList = node.getChildNodes();
 
-		List<Object> lights = new ArrayList<>();
+		List<Light> lights = new ArrayList<>();
 
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node lightNode = nList.item(i);
@@ -77,6 +77,7 @@ public class NodeProcessor {
 				System.out.println("pointLights\n" + light);
 				break;
 			}
+
 			lights.add(light);
 		}
 
@@ -90,31 +91,17 @@ public class NodeProcessor {
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node surfaceNode = nList.item(i);
 
-			if (surfaceNode.getNodeName() != "#text") {
+			if (surfaceNode.getNodeName() != "#text" && surfaceNode.getNodeName() == "sphere") {
 				Element element = (Element) surfaceNode;
-				switch (surfaceNode.getNodeName()) {
-				case "sphere":
-					Sphere sphere = new Sphere();
 
-					String radius = ((Element) surfaceNode).getAttribute("radius");
-					if (!radius.isEmpty())
-						sphere.setRadius(Float.parseFloat(radius));
+				Sphere sphere = null;
+				String radius = ((Element) surfaceNode).getAttribute("radius");
+				Node position = element.getElementsByTagName("position").item(0);
+				Node material = element.getElementsByTagName("material_solid").item(0);
 
-					Node position = element.getElementsByTagName("position").item(0);
-					sphere.setPosition(position);
-
-					System.out.println("sphere");
-					System.out.println("radius: " + sphere.getRadius());
-					System.out.println("position: " + sphere.getPosition());
-
-					// TODO actually set the materials
-					Node materialNonTextured = element.getElementsByTagName("material_solid").item(0);
-					if (materialNonTextured != null) {
-						NonTexturedMaterial material = this.processNonTexturedMaterialNode(materialNonTextured);
-						sphere.setMaterial(material);
-					}
+				if (!radius.isEmpty() && position != null && material != null) {
+					sphere = new Sphere(Float.parseFloat(radius), position, material);
 					spheres.add(sphere);
-					break;
 				}
 			}
 		}

@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import camera.Camera;
+import lights.Light;
 import surfaces.Sphere;
 
 public class XmlToJava {
@@ -73,13 +74,13 @@ public class XmlToJava {
 		return camera;
 	}
 
-	public List<Object> getLights() {
-		List<Object> lights = null;
+	public List<Light> getLights() {
+		List<Light> lights = null;
 
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			if (node.getNodeName().equals("lights"))
-				lights = NodeProcessor.processLightsNode(node);
+				lights = NodeProcessor.processLightNodes(node);
 		}
 
 		return lights;
