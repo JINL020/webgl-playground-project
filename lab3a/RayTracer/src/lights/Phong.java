@@ -1,6 +1,5 @@
 package lights;
 
-//<phong ka="1" kd="1" ks="1" exponent="1"/>
 //        Specifies the coefficients for the phong illumination model.
 //        ka is the ambient component, kd is the diffuse component ks is the specular component
 //        and exponent is the lights.Phong cosine power for highlights.

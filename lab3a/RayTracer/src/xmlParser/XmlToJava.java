@@ -70,7 +70,6 @@ public class XmlToJava {
 			if (node.getNodeName().equals("camera"))
 				camera = NodeProcessor.processCameraNode(node);
 		}
-
 		return camera;
 	}
 

@@ -8,12 +8,6 @@ public class Vec3 extends Vector {
 	private float y;
 	private float z;
 
-	public Vec3(float x, float y, float z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
 	public Vec3(Node node) {
 		String x = ((Element) node).getAttribute("x");
 		String y = ((Element) node).getAttribute("y");
@@ -22,6 +16,13 @@ public class Vec3 extends Vector {
 		this.x = Float.parseFloat(x);
 		this.y = Float.parseFloat(y);
 		this.z = Float.parseFloat(z);
+
+	}
+
+	public Vec3(float x, float y, float z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	public Vec3 add(Vec3 vec) {

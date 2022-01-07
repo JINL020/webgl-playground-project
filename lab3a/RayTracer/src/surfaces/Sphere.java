@@ -10,7 +10,6 @@ public class Sphere {
 	private Material material;
 
 	public Sphere(float radius, Node position, Node material) {
-		super();
 		this.radius = radius;
 		this.position = new Vec3(position);
 		this.material = new Material(material);
@@ -20,4 +19,5 @@ public class Sphere {
 	public String toString() {
 		return "Sphere [radius=" + radius + ", position=" + position + ", material=" + material + "]";
 	}
+
 }

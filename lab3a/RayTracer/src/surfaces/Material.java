@@ -23,21 +23,16 @@ public class Material {
 		Node refraction = element.getElementsByTagName("refraction").item(0);
 
 		if (color != null && phong != null && reflectance != null && transmittance != null && refraction != null) {
-			this.setColor(node);
-			this.setPhong(node);
-			this.setReflectance(node);
-			this.setTransmittance(node);
-			this.setRefraction(node);
+			this.setColor(color);
+			this.setPhong(phong);
+			this.setReflectance(reflectance);
+			this.setTransmittance(transmittance);
+			this.setRefraction(refraction);
 		}
 	}
 
-	public void setColor(Node node) {
-
-		String r = ((Element) node).getAttribute("r");
-		String g = ((Element) node).getAttribute("g");
-		String b = ((Element) node).getAttribute("b");
-
-		color = new Color(Float.parseFloat(r), Float.parseFloat(g), Float.parseFloat(b));
+	private void setColor(Node node) {
+		color = new Color(node);
 	}
 
 	private void setPhong(Node node) {
@@ -61,7 +56,8 @@ public class Material {
 
 	@Override
 	public String toString() {
-		return "Material [color=" + color + ", reflectance=" + reflectance + ", transmittance=" + transmittance
-				+ ", refraction=" + refraction + "]";
+		return "Material [color=" + color + ", phong=" + phong + ", reflectance=" + reflectance + ", transmittance="
+				+ transmittance + ", refraction=" + refraction + "]";
 	}
+
 }

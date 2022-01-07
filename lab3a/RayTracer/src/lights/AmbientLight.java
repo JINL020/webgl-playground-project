@@ -10,7 +10,7 @@ public class AmbientLight extends Light {
 
 	@Override
 	public String toString() {
-		return "AmbientLight []";
+		return "AmbientLight: " + super.toString();
 	}
 
 }

@@ -17,7 +17,7 @@ public class Camera {
 	public Camera(Node position, Node lookat, Node up, Node horizontalFOV, Node resolution, Node maxBounces) {
 		this.setPosition(position);
 		this.setLookat(lookat);
-		this.setUp(lookat);
+		this.setUp(up);
 		this.setHorizontalFOV(horizontalFOV);
 		this.setHorizontalRes(resolution);
 		this.setVerticalRes(resolution);
@@ -58,7 +58,7 @@ public class Camera {
 
 	@Override
 	public String toString() {
-		return "Camera [position=" + position + ", lookat=" + lookat + ", up=" + up + ", horizontalFOV=" + horizontalFOV
+		return "[position=" + position + ", lookat=" + lookat + ", up=" + up + ", horizontalFOV=" + horizontalFOV
 				+ ", horizontalRes=" + horizontalRes + ", verticalRes=" + verticalRes + ", maxBounces=" + maxBounces
 				+ "]";
 	}

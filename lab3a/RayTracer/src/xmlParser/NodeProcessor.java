@@ -15,18 +15,11 @@ import lights.PointLight;
 import primitives.Color;
 import surfaces.Sphere;
 
-// TODO make the functions return the object instead of void
 
 public class NodeProcessor {
 
 	public static Color processBGColor(Node node) {
-		String r = ((Element) node).getAttribute("r");
-		String g = ((Element) node).getAttribute("g");
-		String b = ((Element) node).getAttribute("b");
-
-		Color background = new Color(Float.parseFloat(r), Float.parseFloat(g), Float.parseFloat(b));
-		System.out.println("backgroundColor: " + background + "\n");
-
+		Color background = new Color(node);
 		return background;
 	}
 
@@ -47,8 +40,6 @@ public class NodeProcessor {
 			camera = new Camera(position, lookat, up, horizontalFOV, resolution, maxBounces);
 		}
 
-		System.out.println("camera: " + camera);
-
 		return camera;
 	}
 
@@ -65,27 +56,25 @@ public class NodeProcessor {
 			switch (lightNode.getNodeName()) {
 			case "ambient_light":
 				light = new AmbientLight(lightNode);
-				System.out.println("ambientLight\n" + light + "\n");
+				lights.add(light);
 				break;
 			case "parallel_light":
 				light = new ParallelLight(lightNode);
-				System.out.println("parallelLight\n " + light);
+				lights.add(light);
 				break;
 
 			case "point_light":
 				light = new PointLight(lightNode);
-				System.out.println("pointLights\n" + light);
+				lights.add(light);
 				break;
 			}
-
-			lights.add(light);
 		}
-
 		return lights;
 	}
 
 	public static List<Sphere> processSphereNode(Node node) {
 		NodeList nList = node.getChildNodes();
+
 		List<Sphere> spheres = new ArrayList<>();
 
 		for (int i = 0; i < nList.getLength(); i++) {
@@ -94,19 +83,15 @@ public class NodeProcessor {
 			if (surfaceNode.getNodeName() != "#text" && surfaceNode.getNodeName() == "sphere") {
 				Element element = (Element) surfaceNode;
 
-				Sphere sphere = null;
 				String radius = ((Element) surfaceNode).getAttribute("radius");
 				Node position = element.getElementsByTagName("position").item(0);
 				Node material = element.getElementsByTagName("material_solid").item(0);
 
 				if (!radius.isEmpty() && position != null && material != null) {
-					sphere = new Sphere(Float.parseFloat(radius), position, material);
+					Sphere sphere = new Sphere(Float.parseFloat(radius), position, material);
 					spheres.add(sphere);
 				}
 			}
-		}
-		for (Sphere sphere : spheres) {
-			System.out.println(sphere + "\n");
 		}
 		return spheres;
 	}
