@@ -31,7 +31,7 @@ public class ImageCreator {
 				image.setRGB(x, y, new Color(0, 0, 0).getRGB());
 			}
 
-		File outputFile = new File("blackImage");
+		File outputFile = new File("blackImage.png");
 		ImageIO.write(image, "png", outputFile);
 	}
 
@@ -47,7 +47,7 @@ public class ImageCreator {
 				image.setRGB(x, y, new Color(r, g, b).getRGB());
 			}
 
-		File outputFile = new File("rgbImage");
+		File outputFile = new File("rgbImage.png");
 		ImageIO.write(image, "png", outputFile);
 	}
 

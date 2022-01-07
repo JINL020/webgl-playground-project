@@ -35,9 +35,9 @@ public class Raytracer {
 		Map<Pixel, Ray> rays = createRays();
 		Map<Pixel, Color> colorMap = new HashMap<>();
 
-		for (int j = 0; j < height; j++)
-			for (int i = 0; i < width; i++) {
-				Pixel pixel = new Pixel(i, j);
+		for (int y = 0; y < height; y++)
+			for (int x = 0; x < width; x++) {
+				Pixel pixel = new Pixel(x, y);
 				Ray ray = rays.get(pixel);
 				Color color = traceRay(ray, 0);
 
@@ -45,74 +45,6 @@ public class Raytracer {
 			}
 
 		return colorMap;
-	}
-
-	private float calculateTanFOVX() {
-		return (float) Math.tan(Math.PI / 4);
-	}
-
-	private float calculateTanFOVY() {
-		return (float) Math.tan((height / (float) width) * Math.PI / 4);
-	}
-
-	private float calculateConstantX(float tanFovx) {
-		return ((float) width / width) * tanFovx;
-	}
-
-	private float calculateConstantY(float tanFovy) {
-		return ((float) height / height) / tanFovy;
-	}
-
-	private float calculateStepX(int u, float tanFovx, float constantX) {
-		return (2 * u / (float) width) * tanFovx - constantX;
-	}
-
-	private float calculateStepY(int v, float tanFovy, float constantY) {
-		return (2 * v / (float) height) * tanFovy - constantY;
-	}
-
-//    private boolean intersectTest(Vec3 origin, Vec3 direction, Sphere sphere) {
-//        Vec3 L = Vec3.substract(origin, sphere.getPosition());
-//        float a = Vec3.dot(direction, direction);
-//        float b = 2.0F * Vec3.dot(L, direction);
-//        float c = Vec3.dot(L, L) - sphere.getRadius() * sphere.getRadius();
-//        float discr = b * b - 4 * a * c;
-//
-//        return (discr > 0);
-//    }
-
-	private float intersectionLength(Vec3 origin, Vec3 direction, Sphere sphere, int index)
-			throws IllegalArgumentException {
-		if (index != 0 && index != 1)
-			throw new IllegalArgumentException("Index must be either 0 or 1");
-
-		Vec3 L = Vec3.substract(origin, sphere.getPosition());
-		float a = direction.dot(direction);
-		float b = 2.0F * L.dot(direction);
-		float c = L.dot(L) - sphere.getRadius() * sphere.getRadius();
-		float discr = b * b - 4 * a * c;
-
-		float t0, t1;
-		if (discr == 0)
-			return -0.5F * b / a;
-
-		else if (discr > 0) {
-			float q;
-			if (b > 0)
-				q = -0.5F * (b + (float) Math.sqrt(discr));
-			else
-				q = -0.5F * (b - (float) Math.sqrt(discr));
-
-			t0 = q / a;
-			t1 = c / q;
-
-			if (index == 0)
-				return Math.min(t0, t1);
-			else
-				return Math.max(t0, t1);
-		}
-
-		return -1;
 	}
 
 	private Map<Pixel, Ray> createRays() {
@@ -207,4 +139,73 @@ public class Raytracer {
 		else
 			return output;
 	}
+
+	private float calculateTanFOVX() {
+		return (float) Math.tan(Math.PI / 4);
+	}
+
+	private float calculateTanFOVY() {
+		return (float) Math.tan((height / (float) width) * Math.PI / 4);
+	}
+
+	private float calculateConstantX(float tanFovx) {
+		return ((float) width / width) * tanFovx;
+	}
+
+	private float calculateConstantY(float tanFovy) {
+		return ((float) height / height) / tanFovy;
+	}
+
+	private float calculateStepX(int u, float tanFovx, float constantX) {
+		return (2 * u / (float) width) * tanFovx - constantX;
+	}
+
+	private float calculateStepY(int v, float tanFovy, float constantY) {
+		return (2 * v / (float) height) * tanFovy - constantY;
+	}
+
+//    private boolean intersectTest(Vec3 origin, Vec3 direction, Sphere sphere) {
+//        Vec3 L = Vec3.substract(origin, sphere.getPosition());
+//        float a = Vec3.dot(direction, direction);
+//        float b = 2.0F * Vec3.dot(L, direction);
+//        float c = Vec3.dot(L, L) - sphere.getRadius() * sphere.getRadius();
+//        float discr = b * b - 4 * a * c;
+//
+//        return (discr > 0);
+//    }
+
+	private float intersectionLength(Vec3 origin, Vec3 direction, Sphere sphere, int index)
+			throws IllegalArgumentException {
+		if (index != 0 && index != 1)
+			throw new IllegalArgumentException("Index must be either 0 or 1");
+
+		Vec3 L = Vec3.substract(origin, sphere.getPosition());
+		float a = direction.dot(direction);
+		float b = 2.0F * L.dot(direction);
+		float c = L.dot(L) - sphere.getRadius() * sphere.getRadius();
+		float discr = b * b - 4 * a * c;
+
+		float t0, t1;
+		if (discr == 0)
+			return -0.5F * b / a;
+
+		else if (discr > 0) {
+			float q;
+			if (b > 0)
+				q = -0.5F * (b + (float) Math.sqrt(discr));
+			else
+				q = -0.5F * (b - (float) Math.sqrt(discr));
+
+			t0 = q / a;
+			t1 = c / q;
+
+			if (index == 0)
+				return Math.min(t0, t1);
+			else
+				return Math.max(t0, t1);
+		}
+
+		return -1;
+	}
+
 }

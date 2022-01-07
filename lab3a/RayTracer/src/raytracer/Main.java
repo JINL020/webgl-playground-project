@@ -40,13 +40,15 @@ public class Main {
 
 		Map<Pixel, java.awt.Color> colors = null;
 		try {
-			Raytracer raytracer = new Raytracer(background, camera, spheres, lights);
-			colors = raytracer.calculateColor();
+			// Raytracer raytracer = new Raytracer(background, camera, spheres, lights);
+			// colors = raytracer.calculateColor();
 
 			int height = camera.getVerticalRes();
 			int width = camera.getHorizontalRes();
+
 			ImageCreator imageCreator = new ImageCreator(outputFile, height, width);
-			imageCreator.createImage(colors);
+			// imageCreator.createImage(colors);
+			imageCreator.createRGBImage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
