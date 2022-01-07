@@ -56,6 +56,14 @@ public class Camera {
 		maxBounces = Integer.parseInt(vertical);
 	}
 
+	public int getHorizontalRes() {
+		return horizontalRes;
+	}
+
+	public int getVerticalRes() {
+		return verticalRes;
+	}
+
 	@Override
 	public String toString() {
 		return "[position=" + position + ", lookat=" + lookat + ", up=" + up + ", horizontalFOV=" + horizontalFOV

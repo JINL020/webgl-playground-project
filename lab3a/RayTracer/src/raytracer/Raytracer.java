@@ -7,6 +7,7 @@ import java.util.Map;
 
 import camera.Camera;
 import lights.AmbientLight;
+import lights.Light;
 import lights.ParallelLight;
 import primitives.Pixel;
 import primitives.Ray;
@@ -14,15 +15,15 @@ import primitives.Vec3;
 import surfaces.Sphere;
 
 public class Raytracer {
-	private final java.awt.Color bgColor;
+	private final java.awt.Color backgroundColor;
 	private final Camera camera;
 	private final List<Sphere> spheres;
-	private final List<Object> lights;
+	private final List<Light> lights;
 	private int height;
 	private int width;
 
-	public Raytracer(Color bgColor, Camera camera, List<Sphere> spheres, List<Object> lights) {
-		this.bgColor = bgColor;
+	public Raytracer(Color backgroundColor, Camera camera, List<Sphere> spheres, List<Light> lights) {
+		this.backgroundColor = backgroundColor;
 		this.camera = camera;
 		this.spheres = spheres;
 		this.lights = lights;
@@ -30,20 +31,20 @@ public class Raytracer {
 		this.width = camera.getHorizontalRes();
 	}
 
-	public Color getBgColor() {
-		return bgColor;
-	}
+	public Map<Pixel, java.awt.Color> calculateColor() {
+		Map<Pixel, Ray> rays = createRays();
+		Map<Pixel, Color> colorMap = new HashMap<>();
 
-	public Camera getCamera() {
-		return camera;
-	}
+		for (int j = 0; j < height; j++)
+			for (int i = 0; i < width; i++) {
+				Pixel pixel = new Pixel(i, j);
+				Ray ray = rays.get(pixel);
+				Color color = traceRay(ray, 0);
 
-	public List<Sphere> getSpheres() {
-		return spheres;
-	}
+				colorMap.put(pixel, color);
+			}
 
-	public List<Object> getLights() {
-		return lights;
+		return colorMap;
 	}
 
 	private float calculateTanFOVX() {
@@ -86,9 +87,9 @@ public class Raytracer {
 			throw new IllegalArgumentException("Index must be either 0 or 1");
 
 		Vec3 L = Vec3.substract(origin, sphere.getPosition());
-		float a = Vec3.dot(direction, direction);
-		float b = 2.0F * Vec3.dot(L, direction);
-		float c = Vec3.dot(L, L) - sphere.getRadius() * sphere.getRadius();
+		float a = direction.dot(direction);
+		float b = 2.0F * L.dot(direction);
+		float c = L.dot(L) - sphere.getRadius() * sphere.getRadius();
 		float discr = b * b - 4 * a * c;
 
 		float t0, t1;
@@ -202,24 +203,8 @@ public class Raytracer {
 		}
 
 		if (output == null)
-			return bgColor;
+			return backgroundColor;
 		else
 			return output;
-	}
-
-	public Map<Pixel, java.awt.Color> calculateColor() {
-		Map<Pixel, Ray> rays = createRays();
-		Map<Pixel, Color> colorMap = new HashMap<>();
-
-		for (int j = 0; j < height; j++)
-			for (int i = 0; i < width; i++) {
-				Pixel pixel = new Pixel(i, j);
-				Ray ray = rays.get(pixel);
-				Color color = traceRay(ray, 0);
-
-				colorMap.put(pixel, color);
-			}
-
-		return colorMap;
 	}
 }
