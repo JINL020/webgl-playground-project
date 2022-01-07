@@ -1,9 +1,9 @@
 package lights;
 
-import java.awt.Color;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import primitives.Color;
 
 public abstract class Light {
 	private Color color;
@@ -17,10 +17,6 @@ public abstract class Light {
 		String b = ((Element) child).getAttribute("b");
 
 		color = new Color(Float.parseFloat(r), Float.parseFloat(g), Float.parseFloat(b));
-	}
-
-	public Color getColor() {
-		return color;
 	}
 
 	@Override

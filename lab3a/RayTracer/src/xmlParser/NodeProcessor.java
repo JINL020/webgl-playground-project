@@ -1,6 +1,5 @@
 package xmlParser;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import lights.AmbientLight;
 import lights.Light;
 import lights.ParallelLight;
 import lights.PointLight;
+import primitives.Color;
 import surfaces.Sphere;
 
 // TODO make the functions return the object instead of void
@@ -105,7 +105,9 @@ public class NodeProcessor {
 				}
 			}
 		}
-
+		for (Sphere sphere : spheres) {
+			System.out.println(sphere + "\n");
+		}
 		return spheres;
 	}
 

@@ -1,9 +1,10 @@
 package surfaces;
 
-import java.awt.Color;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import lights.Phong;
+import primitives.Color;
 
 public class Material {
 	private Color color;

@@ -76,9 +76,21 @@ public class Vec3 extends Vector {
 		return result;
 	}
 
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getZ() {
+		return z;
+	}
+
 	@Override
 	public String toString() {
-		return "Vec3 [x=" + x + ", y=" + y + ", z=" + z + "]";
+		return "Vec3(" + x + ", " + y + ", " + z + ")";
 	}
 
 }

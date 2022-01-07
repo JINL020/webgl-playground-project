@@ -1,6 +1,5 @@
 package xmlParser;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +16,7 @@ import org.xml.sax.SAXException;
 
 import camera.Camera;
 import lights.Light;
+import primitives.Color;
 import surfaces.Sphere;
 
 public class XmlToJava {
