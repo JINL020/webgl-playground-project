@@ -19,6 +19,12 @@ public class Ray {
 		return direction;
 	}
 
+	/*
+	 * public boolean castShadow() {
+	 * 
+	 * }
+	 */
+
 	@Override
 	public String toString() {
 		return "Ray [position=" + position + ", direction=" + direction + "]";

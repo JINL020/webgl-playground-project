@@ -16,10 +16,6 @@ public class AmbientLight extends Light {
 		Color materialColor = material.getColor();
 		Phong phong = material.getPhong();
 		float kAmbient = phong.getkAmbient();
-		/*
-		 * System.out.println(ambientColor); System.out.println(materialColor);
-		 * System.out.println(kAmbient);
-		 */
 
 		float r = kAmbient * ambientColor.getX() * materialColor.getX();
 		float g = kAmbient * ambientColor.getY() * materialColor.getY();

@@ -3,20 +3,32 @@ package primitives;
 import surfaces.Material;
 
 public class Intersection {
+	private Ray ray;
 	private Vec3 intersectionPoint;
+	private float t;
 	private float distance;
 	private Vec3 normal;
 	private Material material;
 
-	public Intersection(Vec3 intersectionPoint, Vec3 normal, Material material) {
+	public Intersection(Ray ray, Vec3 intersectionPoint, float t, Vec3 normal, Material material) {
+		this.ray = ray;
 		this.intersectionPoint = intersectionPoint;
+		this.t = t;
 		this.distance = intersectionPoint.length();
-		this.normal = normal;
+		this.normal = normal.normalize();
 		this.material = material;
+	}
+
+	public Ray getRay() {
+		return ray;
 	}
 
 	public Vec3 getIntersectionPoint() {
 		return intersectionPoint;
+	}
+
+	public float getT() {
+		return t;
 	}
 
 	public float getDistance() {

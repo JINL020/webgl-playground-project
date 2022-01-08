@@ -39,11 +39,11 @@ public class Raytracer {
 			for (int x = 0; x < width; x++) {
 				Pixel pixel = new Pixel(x, y);
 				Ray ray = getRaytoPixel(x, y);
-				Color color = traceRay(ray, 0);
+				Color color = traceRay(ray);
+				colorMap.put(pixel, color);
 				// System.out.println(pixel);
 				// System.out.println(ray);
 				// System.out.println(color);
-				colorMap.put(pixel, color);
 			}
 		return colorMap;
 	}
@@ -52,7 +52,7 @@ public class Raytracer {
 		Vec3 cameraPos = camera.getPosition();
 
 		float x = (float) (mapToImagePlane(normalizeX(i)) * Math.tan(getFOVX()));
-		float y = (float) (mapToImagePlane(normalizeY(j)) * Math.tan(getFOVY()));
+		float y = (float) (-1 * mapToImagePlane(normalizeY(j)) * Math.tan(getFOVY()));
 		Vec3 direction = new Vec3(x, y, -1);
 
 		Ray ray = new Ray(cameraPos, direction);
@@ -60,20 +60,19 @@ public class Raytracer {
 		return ray;
 	}
 
-	private Color traceRay(Ray ray, int maxBounce) {
+	private Color traceRay(Ray ray) {
 		/*
 		 * if (maxBounce == 8) return new Color(0, 0, 0);
 		 */
 		Color color = new Color(0, 0, 0);
+
 		Intersection clostestIntersection = null;
 
-		boolean first = true;
 		for (Sphere sphere : spheres) {
-			Intersection intersection = getRaySphereIntersection(ray, sphere);
+			Intersection intersection = sphere.getIntersection(ray);
 			if (intersection != null) {
-				if (first) {
+				if (clostestIntersection == null) {
 					clostestIntersection = intersection;
-					first = false;
 				}
 				if (intersection.getDistance() < clostestIntersection.getDistance()) {
 					clostestIntersection = intersection;
@@ -82,76 +81,52 @@ public class Raytracer {
 		}
 
 		if (clostestIntersection != null) {
-			color = calculateColor(ray, clostestIntersection);
+			color = calculateColor(clostestIntersection);
 		} else {
 			color = backgroundColor;
 		}
 		return color;
 	}
 
-	private Intersection getRaySphereIntersection(Ray ray, Sphere sphere) {
-		Intersection intersection = null;
-
-		Vec3 o = ray.getPosition();
-		Vec3 d = ray.getDirection();
-		Vec3 C = sphere.getPosition();
-		float R = sphere.getRadius();
-
-		Vec3 oSubstractC = o.substract(C);
-
-		/*
-		 * float a = d.square(); float b = d.multiply(2).dot(oSubstractC); float c =
-		 * oSubstractC.square() - R * R;
-		 * 
-		 * float discr = b * b - 4 * a * c;
-		 */
-		float discriminant = (d.dot(oSubstractC) * d.dot(oSubstractC)) - d.square() * (oSubstractC.square() - (R * R));
-
-		if (discriminant == 0) {
-			float t = -d.dot(oSubstractC) / d.square();
-
-			Vec3 intersectionPoint = o.add(d.multiply(t));
-			Vec3 normal = intersectionPoint.substract(C);
-
-			intersection = new Intersection(intersectionPoint, normal, sphere.getMaterial());
-		}
-
-		if (discriminant > 0) {
-			float t1 = (float) ((-d.dot(oSubstractC) - Math.sqrt(discriminant)) / d.square());
-			float t2 = (float) ((-d.dot(oSubstractC) + Math.sqrt(discriminant)) / d.square());
-
-			float t = Math.min(t1, t2);
-
-			Vec3 intersectionPoint = o.add(d.multiply(t));
-			Vec3 normal = intersectionPoint.substract(C);
-
-			intersection = new Intersection(intersectionPoint, normal, sphere.getMaterial());
-		}
-
-		return intersection;
-	}
-
-	private Color calculateColor(Ray ray, Intersection intersection) {
+	private Color calculateColor(Intersection intersection) {
 		Color illumination = new Color(0, 0, 0);
 
 		for (Light light : lights) {
 			Color color = null;
+			boolean isInShadow = castShadowRay(intersection, light);
+			if (!isInShadow) {
+				if (light instanceof AmbientLight) {
+					color = ((AmbientLight) light).calcLight(intersection.getMaterial());
+				}
 
-			if (light instanceof AmbientLight) {
-				color = ((AmbientLight) light).calcLight(intersection.getMaterial());
+				if (light instanceof ParallelLight) {
+					color = ((ParallelLight) light).calcLight(intersection);
+				}
 			}
-
-			if (light instanceof ParallelLight) {
-				// color = ((ParallelLight) light).calcLight();
-			}
-
 			if (color != null) {
-				// System.out.println(color);
 				illumination = new Color(illumination.add(color));
 			}
 		}
 
 		return illumination;
+	}
+
+	private boolean castShadowRay(Intersection intersection, Light light) {
+		if (light instanceof ParallelLight) {
+			Vec3 L = ((ParallelLight) light).getDirection().normalize().reverse();
+			Vec3 intersectionPoint = intersection.getIntersectionPoint().move(0.00004F, L);
+
+			Ray shadowRay = new Ray(intersectionPoint, L);
+
+			for (Sphere sphere : spheres) {
+				Intersection i = sphere.getIntersection(shadowRay);
+				if (i != null && i.getT() > 0) {
+					return true;
+				}
+			}
+		}
+		// System.out.println(isInShadow);
+		return false;
 	}
 
 	private float normalizeX(int u) {

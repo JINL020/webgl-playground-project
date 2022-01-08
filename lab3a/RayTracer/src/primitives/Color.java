@@ -14,7 +14,7 @@ public class Color extends Vec3 {
 	}
 
 	public Color(Vec3 vec3) {
-		super(vec3.getX(), vec3.getY(), vec3.getZ());
+		super(checkInRange(vec3.getX()), checkInRange(vec3.getY()), checkInRange(vec3.getZ()));
 	}
 
 	public java.awt.Color convertToAwtColor() {

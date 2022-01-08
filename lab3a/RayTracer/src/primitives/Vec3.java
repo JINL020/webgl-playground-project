@@ -3,7 +3,7 @@ package primitives;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class Vec3 extends Vector {
+public class Vec3 {
 	private float x;
 	private float y;
 	private float z;
@@ -78,6 +78,22 @@ public class Vec3 extends Vector {
 	public Vec3 normalize() {
 		Vec3 result = new Vec3(this.x / length(), this.y / length(), this.z / length());
 		return result;
+	}
+
+	public Vec3 reverse() {
+		Vec3 result = new Vec3(-this.x, -this.y, -this.z);
+		return result;
+	}
+
+	public Vec3 move(float epsilon, Vec3 l) {
+		float x_res = this.x + epsilon * l.x;
+		float y_res = this.y + epsilon * l.y;
+		float z_res = this.z + epsilon * l.z;
+
+		Vec3 result = new Vec3(x_res, y_res, z_res);
+
+		return result;
+
 	}
 
 	public float getX() {
