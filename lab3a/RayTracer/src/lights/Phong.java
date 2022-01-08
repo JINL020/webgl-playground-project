@@ -25,6 +25,22 @@ public class Phong {
 		this.exponent = Integer.parseInt(exponent);
 	}
 
+	public float getkAmbient() {
+		return kAmbient;
+	}
+
+	public float getkDiffuse() {
+		return kDiffuse;
+	}
+
+	public float getkSpecular() {
+		return kSpecular;
+	}
+
+	public int getExponent() {
+		return exponent;
+	}
+
 	@Override
 	public String toString() {
 		return "Phong [kAmbient=" + kAmbient + ", kDiffuse=" + kDiffuse + ", kSpecular=" + kSpecular + ", exponent="

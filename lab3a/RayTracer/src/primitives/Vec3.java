@@ -53,12 +53,15 @@ public class Vec3 extends Vector {
 		return result;
 	}
 
-	public Vec3 multiply(Vec3 vec) {
-		float x_res = this.x * vec.x;
-		float y_res = this.y * vec.y;
-		float z_res = this.z * vec.z;
+	/*
+	 * public Vec3 multiply(Vec3 vec) { float x_res = this.x * vec.x; float y_res =
+	 * this.y * vec.y; float z_res = this.z * vec.z;
+	 * 
+	 * Vec3 result = new Vec3(x_res, y_res, z_res); return result; }
+	 */
 
-		Vec3 result = new Vec3(x_res, y_res, z_res);
+	public float square() {
+		float result = this.dot(this);
 		return result;
 	}
 

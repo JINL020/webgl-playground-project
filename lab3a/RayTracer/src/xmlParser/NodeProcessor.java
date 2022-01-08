@@ -15,7 +15,6 @@ import lights.PointLight;
 import primitives.Color;
 import surfaces.Sphere;
 
-
 public class NodeProcessor {
 
 	public static Color processBGColor(Node node) {

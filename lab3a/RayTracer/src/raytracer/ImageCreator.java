@@ -2,7 +2,6 @@ package raytracer;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,15 +9,14 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import primitives.Color;
 import primitives.Pixel;
 
 public class ImageCreator {
-	private final String imageName;
 	private final int height;
 	private final int width;
 
-	public ImageCreator(String imageName, int height, int width) {
-		this.imageName = imageName;
+	public ImageCreator(int height, int width) {
 		this.height = height;
 		this.width = width;
 	}
@@ -26,10 +24,12 @@ public class ImageCreator {
 	public void createBlackImage() throws IOException {
 		BufferedImage image = new BufferedImage(width, height, TYPE_INT_RGB);
 
-		for (int y = 0; y < height; y++)
+		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				image.setRGB(x, y, new Color(0, 0, 0).getRGB());
+				Color color = new Color(0, 0, 0);
+				image.setRGB(x, y, color.convertToAwtColor().getRGB());
 			}
+		}
 
 		File outputFile = new File("blackImage.png");
 		ImageIO.write(image, "png", outputFile);
@@ -38,31 +38,30 @@ public class ImageCreator {
 	public void createRGBImage() throws IOException {
 		BufferedImage image = new BufferedImage(width, height, TYPE_INT_RGB);
 
-		for (int y = 0; y < height; y++)
+		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				float r = (float) x / (width - 1);
-				float g = (float) y / (height - 1);
+				float r = (float) x / width;
+				float g = (float) y / height;
 				float b = 0F;
-
-				image.setRGB(x, y, new Color(r, g, b).getRGB());
+				image.setRGB(x, y, new Color(r, g, b).convertToAwtColor().getRGB());
 			}
+		}
 
 		File outputFile = new File("rgbImage.png");
 		ImageIO.write(image, "png", outputFile);
 	}
 
-	public void createImage(Map<Pixel, Color> rays) throws IOException, IllegalArgumentException {
+	public void createImage(Map<Pixel, Color> colorMap, String imageName) throws IOException, IllegalArgumentException {
 		BufferedImage image = new BufferedImage(width, height, TYPE_INT_RGB);
 
-		for (int y = 0; y < height; y++)
+		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Color color = rays.get(new Pixel(x, y));
-				if (color == null)
-					System.out.println("x " + x + " y " + y);
-
+				Pixel pixel = new Pixel(x, y);
+				Color color = colorMap.get(pixel);
 				assert color != null;
-				image.setRGB(x, y, color.getRGB());
+				image.setRGB(x, y, color.convertToAwtColor().getRGB());
 			}
+		}
 
 		File outputFile = new File(imageName);
 		ImageIO.write(image, "png", outputFile);

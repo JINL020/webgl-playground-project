@@ -56,6 +56,14 @@ public class Camera {
 		maxBounces = Integer.parseInt(vertical);
 	}
 
+	public Vec3 getPosition() {
+		return position;
+	}
+
+	public int getHorizontalFOV() {
+		return horizontalFOV;
+	}
+
 	public int getHorizontalRes() {
 		return horizontalRes;
 	}

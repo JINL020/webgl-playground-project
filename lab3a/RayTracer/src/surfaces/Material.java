@@ -31,6 +31,14 @@ public class Material {
 		}
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public Phong getPhong() {
+		return phong;
+	}
+
 	private void setColor(Node node) {
 		color = new Color(node);
 	}

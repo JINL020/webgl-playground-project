@@ -14,6 +14,10 @@ public abstract class Light {
 		this.color = new Color(color);
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
 	@Override
 	public String toString() {
 		return "[color=" + color + "]";

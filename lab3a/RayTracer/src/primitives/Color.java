@@ -9,14 +9,29 @@ public class Color extends Vec3 {
 		super(getColorValue(node, "r"), getColorValue(node, "g"), getColorValue(node, "b"));
 	}
 
+	public Color(float r, float g, float b) {
+		super(checkInRange(r), checkInRange(g), checkInRange(b));
+	}
+
+	public Color(Vec3 vec3) {
+		super(vec3.getX(), vec3.getY(), vec3.getZ());
+	}
+
+	public java.awt.Color convertToAwtColor() {
+		return new java.awt.Color(getX(), getY(), getZ());
+	}
+
 	private static float getColorValue(Node node, String value) {
 		String res = ((Element) node).getAttribute(value);
 		float result = Float.parseFloat(res);
 		return result;
 	}
 
-	public java.awt.Color convertToAwtColor() {
-		return new java.awt.Color(getX(), getY(), getZ());
+	private static float checkInRange(float value) {
+		if (value > 1) {
+			return 1;
+		}
+		return value;
 	}
 
 	@Override

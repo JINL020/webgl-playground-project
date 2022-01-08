@@ -2,10 +2,30 @@ package lights;
 
 import org.w3c.dom.Node;
 
+import primitives.Color;
+import surfaces.Material;
+
 public class AmbientLight extends Light {
 
 	public AmbientLight(Node lightNode) {
 		super(lightNode);
+	}
+
+	public Color calcLight(Material material) {
+		Color ambientColor = this.getColor();
+		Color materialColor = material.getColor();
+		Phong phong = material.getPhong();
+		float kAmbient = phong.getkAmbient();
+		/*
+		 * System.out.println(ambientColor); System.out.println(materialColor);
+		 * System.out.println(kAmbient);
+		 */
+
+		float r = kAmbient * ambientColor.getX() * materialColor.getX();
+		float g = kAmbient * ambientColor.getY() * materialColor.getY();
+		float b = kAmbient * ambientColor.getZ() * materialColor.getZ();
+
+		return new Color(r, g, b);
 	}
 
 	@Override
