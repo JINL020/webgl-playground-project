@@ -3,10 +3,10 @@ package lights;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import material.MaterialSolid;
 import primitives.Color;
 import primitives.Intersection;
 import primitives.Vec3;
-import surfaces.MaterialSolid;
 
 public class PointLight extends Light {
 	private Vec3 position;

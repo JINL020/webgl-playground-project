@@ -2,8 +2,8 @@ package lights;
 
 import org.w3c.dom.Node;
 
+import material.MaterialSolid;
 import primitives.Color;
-import surfaces.MaterialSolid;
 
 public class AmbientLight extends Light {
 

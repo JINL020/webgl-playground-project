@@ -1,6 +1,6 @@
 package primitives;
 
-import surfaces.MaterialSolid;
+import material.MaterialSolid;
 
 public class Intersection {
 	private Ray ray;

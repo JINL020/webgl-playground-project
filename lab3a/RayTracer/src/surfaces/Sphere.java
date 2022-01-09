@@ -2,6 +2,7 @@ package surfaces;
 
 import org.w3c.dom.Node;
 
+import material.MaterialSolid;
 import primitives.Intersection;
 import primitives.Ray;
 import primitives.Vec3;
