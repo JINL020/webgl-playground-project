@@ -8,6 +8,7 @@ import camera.Camera;
 import lights.AmbientLight;
 import lights.Light;
 import lights.ParallelLight;
+import lights.PointLight;
 import primitives.Color;
 import primitives.Intersection;
 import primitives.Pixel;
@@ -98,9 +99,11 @@ public class Raytracer {
 				if (light instanceof AmbientLight) {
 					color = ((AmbientLight) light).calcLight(intersection.getMaterial());
 				}
-
 				if (light instanceof ParallelLight) {
 					color = ((ParallelLight) light).calcLight(intersection);
+				}
+				if (light instanceof PointLight) {
+					color = ((PointLight) light).calcLight(intersection);
 				}
 			}
 			if (color != null) {
