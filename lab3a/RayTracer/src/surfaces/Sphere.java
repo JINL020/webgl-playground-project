@@ -9,12 +9,12 @@ import primitives.Vec3;
 public class Sphere {
 	private float radius;
 	private Vec3 position;
-	private Material material;
+	private MaterialSolid material;
 
 	public Sphere(float radius, Node position, Node material) {
 		this.radius = radius;
 		this.position = new Vec3(position);
-		this.material = new Material(material);
+		this.material = new MaterialSolid(material);
 	}
 
 	public Intersection getIntersection(Ray ray) {

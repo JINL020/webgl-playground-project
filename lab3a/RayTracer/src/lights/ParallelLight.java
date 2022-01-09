@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import primitives.Color;
 import primitives.Intersection;
 import primitives.Vec3;
-import surfaces.Material;
+import surfaces.MaterialSolid;
 
 public class ParallelLight extends Light {
 	private Vec3 direction;
@@ -18,7 +18,7 @@ public class ParallelLight extends Light {
 	}
 
 	public Color calcLight(Intersection intersection) {
-		Material material = intersection.getMaterial();
+		MaterialSolid material = intersection.getMaterial();
 		Color lightColor = this.getColor();
 		Color materialColor = material.getColor();
 		Phong phong = material.getPhong();

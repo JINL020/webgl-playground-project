@@ -1,6 +1,6 @@
 package primitives;
 
-import surfaces.Material;
+import surfaces.MaterialSolid;
 
 public class Intersection {
 	private Ray ray;
@@ -8,9 +8,9 @@ public class Intersection {
 	private float t;
 	private float distance;
 	private Vec3 normal;
-	private Material material;
+	private MaterialSolid material;
 
-	public Intersection(Ray ray, Vec3 intersectionPoint, float t, Vec3 normal, Material material) {
+	public Intersection(Ray ray, Vec3 intersectionPoint, float t, Vec3 normal, MaterialSolid material) {
 		this.ray = ray;
 		this.intersectionPoint = intersectionPoint;
 		this.t = t;
@@ -39,7 +39,7 @@ public class Intersection {
 		return normal;
 	}
 
-	public Material getMaterial() {
+	public MaterialSolid getMaterial() {
 		return material;
 	}
 

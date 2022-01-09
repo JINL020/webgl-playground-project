@@ -3,7 +3,7 @@ package lights;
 import org.w3c.dom.Node;
 
 import primitives.Color;
-import surfaces.Material;
+import surfaces.MaterialSolid;
 
 public class AmbientLight extends Light {
 
@@ -11,7 +11,7 @@ public class AmbientLight extends Light {
 		super(lightNode);
 	}
 
-	public Color calcLight(Material material) {
+	public Color calcLight(MaterialSolid material) {
 		Color ambientColor = this.getColor();
 		Color materialColor = material.getColor();
 		Phong phong = material.getPhong();
