@@ -31,7 +31,7 @@ public class ImageCreator {
 			}
 		}
 
-		File outputFile = new File("example/blackImage.png");
+		File outputFile = new File("blackImage.png");
 		ImageIO.write(image, "png", outputFile);
 	}
 
@@ -47,7 +47,7 @@ public class ImageCreator {
 			}
 		}
 
-		File outputFile = new File("example/rgbImage.png");
+		File outputFile = new File("rgbImage.png");
 		ImageIO.write(image, "png", outputFile);
 	}
 
@@ -63,7 +63,7 @@ public class ImageCreator {
 			}
 		}
 
-		File outputFile = new File("example/" + imageName);
+		File outputFile = new File(imageName);
 		ImageIO.write(image, "png", outputFile);
 	}
 

@@ -51,8 +51,8 @@ public class Main {
 
 			ImageCreator imageCreator = new ImageCreator(height, width);
 
-			imageCreator.createBlackImage();
-			imageCreator.createRGBImage();
+			// imageCreator.createBlackImage();
+			// imageCreator.createRGBImage();
 
 			Raytracer raytracer = new Raytracer(background, camera, spheres, lights);
 			colors = raytracer.getColorMap();
