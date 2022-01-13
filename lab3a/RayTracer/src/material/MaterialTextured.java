@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 
 public class MaterialTextured extends MaterialSolid {
 	private String name;
+	// private image;
 
 	public MaterialTextured(Node node) {
 		super(node);
